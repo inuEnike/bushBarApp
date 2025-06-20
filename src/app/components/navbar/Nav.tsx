@@ -28,7 +28,8 @@ const Nav = () => {
       >
         <div className="logo">
           <h2 className="text-2xl font-extrabold uppercase">
-            <span className="text-[#ff3b59]">Bush</span>Bar{" "}
+            ABdullahi
+            <span className="text-[#ff3b59]"> BushBar</span>{" "}
           </h2>
         </div>
 
