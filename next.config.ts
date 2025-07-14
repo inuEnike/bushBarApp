@@ -1,10 +1,32 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  allowedDevOrigins: ["local-origin.dev", "*.local-origin.dev"],
+  webpack(config) {
+    // Remove default SVG handling from Next.js
+    const fileLoaderRule = config.module.rules.find((rule: any) =>
+      rule.test?.test?.(".svg")
+    );
+
+    if (fileLoaderRule) {
+      fileLoaderRule.exclude = /\.svg$/;
+    }
+
+    // Add SVGR for importing SVGs as components
+    config.module.rules.push({
+      test: /\.svg$/,
+      issuer: {
+        and: [/\.(ts|tsx|js|jsx)$/],
+      },
+      use: ["@svgr/webpack"],
+    });
+
+    return config;
+  },
   images: {
-    remotePatterns: [new URL("https://via.placeholder.com/600x400/c2185b/**")],
+    domains: [
+      "pictures-nigeria.jijistatic.net",
+      "rargccvfdicjywxxgktk.supabase.co",
+    ], // 👈 add Jiji's domain
   },
 };
 

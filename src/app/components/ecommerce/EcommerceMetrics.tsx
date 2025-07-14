@@ -1,0 +1,88 @@
+"use client";
+import React from "react";
+import Badge from "../ui/badge/Badge";
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  BoxIconLine,
+  GroupIcon,
+} from "@/app/icons";
+import { createClient } from "@/app/utils/supabase/clientApp";
+
+const EcommerceMetrics = () => {
+  const [BarCount, setBarCount] = React.useState(0);
+  const [ordersCount, setOrdersCount] = React.useState(0);
+  const [loading, setLoading] = React.useState(true);
+
+  const fetchMetrics = async () => {
+    setLoading(true);
+    const supabase = createClient();
+
+    // Fetch total Bar
+    const { count: Bar, error: BarError } = await supabase
+      .from("bars")
+      .select("*", { count: "exact", head: true });
+
+    // Fetch total orders
+    const { count: orders, error: ordersError } = await supabase
+      .from("orders")
+      .select("*", { count: "exact", head: true });
+
+    if (!BarError) setBarCount(Bar || 0);
+    if (!ordersError) setOrdersCount(orders || 0);
+
+    setLoading(false);
+  };
+
+  React.useEffect(() => {
+    fetchMetrics();
+  }, []);
+
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
+      {/* Reservation Metric */}
+      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+        <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800">
+          <GroupIcon className="text-gray-800 size-6 dark:text-white/90" />
+        </div>
+        <div className="flex items-end justify-between mt-5">
+          <div>
+            <span className="text-lg font-bold uppercase text-gray-500 dark:text-gray-400">
+              Bar
+            </span>
+            <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
+              {loading ? "..." : BarCount}
+            </h4>
+          </div>
+          <Badge color="success">
+            <ArrowUpIcon />
+            11.01%
+          </Badge>
+        </div>
+      </div>
+
+      {/* Orders Metric */}
+      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+        <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800">
+          <BoxIconLine className="text-gray-800 dark:text-white/90" />
+        </div>
+        <div className="flex items-end justify-between mt-5">
+          <div>
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+              Orders
+            </span>
+            <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
+              {loading ? "..." : ordersCount}
+            </h4>
+          </div>
+          <Badge color="error">
+            <ArrowDownIcon className="text-error-500" />
+            9.05%
+          </Badge>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EcommerceMetrics;

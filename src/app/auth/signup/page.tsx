@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import SIgnupForm from "../../components/auth/SIgnupForm";
 import { ArrowLeft } from "@deemlol/next-icons";
 import Link from "next/link";
+import SignupForm from "@/app/components/auth/SIgnupForm";
 
-const signup = () => {
+const Signup = () => {
   return (
     <div className="md:flex items-center h-screen md:bg-gray-100">
       <div className="w-1/2 h-screen relative auth not-md:hidden">
@@ -23,10 +23,10 @@ const signup = () => {
             Kindly Enter your Details
           </h2>{" "}
         </div>
-        <SIgnupForm />
+        <SignupForm />
       </div>
     </div>
   );
 };
 
-export default signup;
+export default Signup;

@@ -7,23 +7,35 @@ import MobileNav from "./MobileNav";
 import { useEffect, useState } from "react";
 
 const Nav = () => {
+  // You might still want the scroll state for styling changes (e.g., adding shadow)
   const [scroll, setScroll] = useState(false);
   const [nav, setNav] = useState(false);
 
   const toggleNav = () => {
     setNav(!nav);
   };
+
   useEffect(() => {
-    window.addEventListener("scroll", () => {
+    const handleScroll = () => {
       setScroll(window.scrollY > 10);
-    });
-  });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []); // Empty dependency array means this effect runs once on mount
 
   return (
     <>
       <nav
-        className={`flex items-center md:justify-around justify-between px-10 py-5 fixed w-full top-0 bg-white ${
-          scroll ? "sticky" : ""
+        // Keep it fixed and apply z-index.
+        // Use a higher z-index like z-[999] or z-[100] for maximum certainty.
+        // The 'scroll' state can be used for other styling, like a shadow.
+        className={`fixed w-full top-0 z-[999] flex items-center md:justify-around justify-between px-10 py-5 bg-white ${
+          scroll ? "shadow-md" : "" // Add a shadow on scroll for visual feedback
         }`}
       >
         <div className="logo">
@@ -58,6 +70,7 @@ const Nav = () => {
           </button>
         </div>
       </nav>
+      {/* If MobileNav also needs to be on top, ensure it also has a high z-index and appropriate positioning */}
       {nav && <MobileNav toggleNav={toggleNav} />}
     </>
   );

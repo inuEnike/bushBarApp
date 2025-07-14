@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
+import Nav from "./components/navbar/Nav";
 
 const geistSource = Source_Sans_3({
   variable: "--font-source_sans_3",
@@ -19,7 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSource.variable} antialiased`}>{children}</body>
+      <body className={`${geistSource.variable} antialiased`}>
+        {/* <Nav /> */}
+        {children}
+      </body>
     </html>
   );
 }

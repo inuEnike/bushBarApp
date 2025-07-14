@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Typewriter } from "react-simple-typewriter";
 
 const Hero = () => {
+
   return (
     <div className="flex flex-col md:flex-row items-center justify-between px-10 py-20 md:py-30 w-full md:w-[80%] m-auto h-[100vh]">
       <div className="w-full md:w-[50%] not-md:text-center flex-wrap">
