@@ -1,13 +1,8 @@
 "use client";
 import React from "react";
-import { useModal } from "../../hooks/useModal";
-import { Modal } from "../ui/modal";
-import Button from "../ui/button/Button";
-// import Input from "../form/input/InputField";
-import Label from "../form/Label";
+
 import Image from "next/image";
-import Input from "../form/input/InputField";
-import { fetchUserData } from "@/app/utils/supabase/fetchUser";
+import * as fetchUser from "@/app/utils/supabase/fetchUser";
 
 type User = {
   first_name: string;
@@ -22,7 +17,7 @@ export default function UserMetaCard() {
 
   React.useEffect(() => {
     const fetch = async () => {
-      const userData = await fetchUserData();
+      const userData = await fetchUser.fetchUserData();
 
       if (userData && userData.user_metadata) {
         const {
